@@ -1,4 +1,5 @@
 package com.practica01.controller;
+
 import com.practica01.domain.Suculenta;
 import com.practica01.service.SuculentaService;
 import jakarta.validation.Valid;
