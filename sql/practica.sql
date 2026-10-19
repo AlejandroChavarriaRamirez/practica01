@@ -1,4 +1,4 @@
--- Práctica 01 SC-403: ejecutar como root
+-- Práctica 01: ejecutar como root
 drop database if exists practica;
 drop user if exists usuario_practica;
 
