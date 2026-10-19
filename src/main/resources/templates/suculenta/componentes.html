@@ -1,0 +1,103 @@
+<!-- Componentes propios de la pagina de suculentas -->
+
+<!-- tarjetas: una tarjeta por cada suculenta que viene de la BD -->
+<div th:fragment="tarjetas">
+    <div th:if="${suculentas.empty}" class="alert alert-info">[[#{catalogo.vacio}]]</div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+        <div class="col" th:each="s : ${suculentas}">
+            <div class="card h-100 shadow-sm">
+                <img th:if="${!#strings.isEmpty(s.rutaImagen)}" th:src="${s.rutaImagen}"
+                     th:alt="${s.nombreComun}" class="card-img-top" style="height: 200px; object-fit: cover;"/>
+                <div class="card-body">
+                    <h5 class="card-title mb-0">[[${s.nombreComun}]]</h5>
+                    <p class="fst-italic text-muted">[[${s.nombreCientifico}]]</p>
+                    <ul class="list-unstyled small mb-0">
+                        <li><strong>[[#{campo.familia}]]:</strong> [[${s.familia}]]</li>
+                        <li><strong>[[#{campo.colorPrincipal}]]:</strong> [[${s.colorPrincipal}]]</li>
+                        <li><strong>[[#{campo.alturaCm}]]:</strong> [[${s.alturaCm}]]</li>
+                        <li><strong>[[#{campo.precioEstimado}]]:</strong> [[${s.precioEstimado}]]</li>
+                        <li><strong>[[#{campo.nivelRiego}]]:</strong> [[${s.nivelRiego}]]</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-transparent d-flex gap-2">
+                    <!-- Editar: abre el modal con los datos de esta suculenta -->
+                    <button type="button" class="btn btn-sm btn-outline-primary"
+                            data-bs-toggle="modal" data-bs-target="#modalSuculenta"
+                            th:data-titulo="#{form.titulo.editar}"
+                            th:data-id-suculenta="${s.idSuculenta}"
+                            th:data-nombre-comun="${s.nombreComun}"
+                            th:data-nombre-cientifico="${s.nombreCientifico}"
+                            th:data-familia="${s.familia}"
+                            th:data-color-principal="${s.colorPrincipal}"
+                            th:data-altura-cm="${s.alturaCm}"
+                            th:data-precio-estimado="${s.precioEstimado}"
+                            th:data-nivel-riego="${s.nivelRiego}"
+                            th:data-ruta-imagen="${s.rutaImagen}">
+                        [[#{boton.editar}]]
+                    </button>
+                    <!-- Eliminar: envia el id; suculenta.js pide confirmacion antes -->
+                    <form class="form-eliminar" method="post" th:action="@{/suculenta/eliminar}"
+                          th:data-mensaje="#{confirmar.eliminar(${s.nombreComun})}">
+                        <input type="hidden" name="idSuculenta" th:value="${s.idSuculenta}"/>
+                        <button type="submit" class="btn btn-sm btn-outline-danger">[[#{boton.eliminar}]]</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modalFormulario: el mismo formulario sirve para registrar y para editar -->
+<div th:fragment="modalFormulario" class="modal fade" id="modalSuculenta" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content" id="formSuculenta" method="post" th:action="@{/suculenta/guardar}">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloModal"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Vacio al registrar; con valor al editar -->
+                <input type="hidden" name="idSuculenta"/>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">[[#{campo.nombreComun}]]</label>
+                        <input type="text" name="nombreComun" class="form-control" maxlength="50" required/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">[[#{campo.nombreCientifico}]]</label>
+                        <input type="text" name="nombreCientifico" class="form-control" maxlength="80" required/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">[[#{campo.familia}]]</label>
+                        <input type="text" name="familia" class="form-control" maxlength="50"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">[[#{campo.colorPrincipal}]]</label>
+                        <input type="text" name="colorPrincipal" class="form-control" maxlength="30"/>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">[[#{campo.alturaCm}]]</label>
+                        <input type="number" name="alturaCm" class="form-control" min="0" step="0.01"/>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">[[#{campo.precioEstimado}]]</label>
+                        <input type="number" name="precioEstimado" class="form-control" min="0" step="0.01"/>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">[[#{campo.nivelRiego}]]</label>
+                        <input type="text" name="nivelRiego" class="form-control" maxlength="20"/>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">[[#{campo.rutaImagen}]]</label>
+                        <input type="url" name="rutaImagen" class="form-control" maxlength="1024"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">[[#{boton.cancelar}]]</button>
+                <button type="submit" class="btn btn-primary">[[#{boton.guardar}]]</button>
+            </div>
+        </form>
+    </div>
+</div>

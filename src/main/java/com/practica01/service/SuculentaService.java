@@ -3,38 +3,39 @@ package com.practica01.service;
 import com.practica01.domain.Suculenta;
 import com.practica01.repository.SuculentaRepository;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/*
+ * Logica del catalogo. El controlador nunca usa el repositorio directamente,
+ * siempre pasa por esta clase.
+ */
 @Service
 @RequiredArgsConstructor
 public class SuculentaService {
 
-    //Se enlaza con el repositorio por medio de SuculentaRepository
     private final SuculentaRepository suculentaRepository;
 
+    // Devuelve todas las suculentas registradas
     @Transactional(readOnly = true)
-    public List<Suculenta> getSuculentas() {
+    public List<Suculenta> listarSuculentas() {
         return suculentaRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
-    public Optional<Suculenta> getSuculenta(Integer idSuculenta) {
-        return suculentaRepository.findById(idSuculenta);
-    }
-
-    //Si idSuculenta tiene valor se hace un update, si no tiene valor se hace un insert
-    public void save(Suculenta suculenta) {
+    // Cuando la suculenta trae id, JPA actualiza ese registro; si no trae, inserta uno nuevo
+    @Transactional
+    public void guardar(Suculenta suculenta) {
         suculentaRepository.save(suculenta);
     }
 
-    //Se valida si la suculenta existe y luego se elimina
-    public void delete(Integer idSuculenta) {
+    // Retorna false si el id no existe, asi el controlador sabe que mensaje mostrar
+    @Transactional
+    public boolean eliminar(Integer idSuculenta) {
         if (!suculentaRepository.existsById(idSuculenta)) {
-            throw new IllegalArgumentException("La suculenta no existe: " + idSuculenta);
+            return false;
         }
         suculentaRepository.deleteById(idSuculenta);
+        return true;
     }
 }

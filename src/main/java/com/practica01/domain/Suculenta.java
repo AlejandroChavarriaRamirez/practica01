@@ -8,48 +8,56 @@ import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 
+/*
+ * Representa una fila de la tabla suculenta.
+ * Los atributos en camelCase quedan mapeados a las columnas en snake_case
+ * (por ejemplo nombreComun -> nombre_comun).
+ */
 @Getter
 @Setter
-@Entity //Mapea la tabla suculenta de la BD
-@Table(name="suculenta")
-
+@Entity
+@Table(name = "suculenta")
 public class Suculenta implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
+    // Llave primaria, MySQL la genera con AUTO_INCREMENT
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //El id lo asigna la BD automaticamente
-    @Column(name="id_suculenta")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_suculenta")
     private Integer idSuculenta;
 
-    @Column(nullable=false, length=50)
+    // Los dos nombres son obligatorios, igual que en el script SQL
     @NotBlank
-    @Size(max=50)
+    @Size(max = 50)
+    @Column(nullable = false, length = 50)
     private String nombreComun;
 
-    @Column(nullable=false, length=80)
     @NotBlank
-    @Size(max=80)
+    @Size(max = 80)
+    @Column(nullable = false, length = 80)
     private String nombreCientifico;
 
-    @Column(length=50)
-    @Size(max=50)
+    @Size(max = 50)
+    @Column(length = 50)
     private String familia;
 
-    @Column(length=30)
-    @Size(max=30)
+    @Size(max = 30)
+    @Column(length = 30)
     private String colorPrincipal;
 
-    @Column(precision=6, scale=2)
+    @Column(precision = 6, scale = 2)
     private BigDecimal alturaCm;
 
-    @Column(precision=12, scale=2)
+    @Column(precision = 12, scale = 2)
     private BigDecimal precioEstimado;
 
-    @Column(length=20)
-    @Size(max=20)
+    @Size(max = 20)
+    @Column(length = 20)
     private String nivelRiego;
 
-    @Column(length=1024)
-    @Size(max=1024)
+    // Enlace a la foto alojada en internet, no se guardan imagenes en el proyecto
+    @Size(max = 1024)
+    @Column(length = 1024)
     private String rutaImagen;
 }
