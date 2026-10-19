@@ -1,6 +1,4 @@
-<!-- Partes comunes que reutilizan todas las paginas del catalogo -->
-
-<!-- cabeza: metadatos y Bootstrap desde webjars -->
+<!-- Head con Bootstrap -->
 <head th:fragment="cabeza">
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -9,7 +7,7 @@
     <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </head>
 
-<!-- encabezado: barra de navegacion con el menu y titulo de la seccion -->
+<!-- Menu y titulo -->
 <header th:fragment="encabezado">
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
         <div class="container">
@@ -34,7 +32,7 @@
     </div>
 </header>
 
-<!-- avisos: resultado de guardar o eliminar; el controlador manda la llave del mensaje -->
+<!-- Mensajes despues de guardar o eliminar -->
 <div th:fragment="avisos" class="mt-3">
     <div th:if="${avisoExito}" class="alert alert-success alert-dismissible fade show" role="alert">
         [[#{${avisoExito}}]]
@@ -46,7 +44,7 @@
     </div>
 </div>
 
-<!-- pie: pie de pagina -->
+<!-- Pie de pagina -->
 <footer th:fragment="pie" class="bg-primary text-white text-center py-3 mt-auto">
     <small>[[#{pie.texto}]]</small>
 </footer>

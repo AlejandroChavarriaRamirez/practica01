@@ -1,6 +1,4 @@
-<!-- Componentes propios de la pagina de suculentas -->
-
-<!-- tarjetas: una tarjeta por cada suculenta que viene de la BD -->
+<!-- Tarjetas del catalogo -->
 <div th:fragment="tarjetas">
     <div th:if="${suculentas.empty}" class="alert alert-info">[[#{catalogo.vacio}]]</div>
 
@@ -21,7 +19,6 @@
                     </ul>
                 </div>
                 <div class="card-footer bg-transparent d-flex gap-2">
-                    <!-- Editar: abre el modal con los datos de esta suculenta -->
                     <button type="button" class="btn btn-sm btn-outline-primary"
                             data-bs-toggle="modal" data-bs-target="#modalSuculenta"
                             th:data-titulo="#{form.titulo.editar}"
@@ -36,7 +33,6 @@
                             th:data-ruta-imagen="${s.rutaImagen}">
                         [[#{boton.editar}]]
                     </button>
-                    <!-- Eliminar: envia el id; suculenta.js pide confirmacion antes -->
                     <form class="form-eliminar" method="post" th:action="@{/suculenta/eliminar}"
                           th:data-mensaje="#{confirmar.eliminar(${s.nombreComun})}">
                         <input type="hidden" name="idSuculenta" th:value="${s.idSuculenta}"/>
@@ -48,7 +44,7 @@
     </div>
 </div>
 
-<!-- modalFormulario: el mismo formulario sirve para registrar y para editar -->
+<!-- Formulario para registrar y editar -->
 <div th:fragment="modalFormulario" class="modal fade" id="modalSuculenta" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <form class="modal-content" id="formSuculenta" method="post" th:action="@{/suculenta/guardar}">
@@ -57,7 +53,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <!-- Vacio al registrar; con valor al editar -->
                 <input type="hidden" name="idSuculenta"/>
                 <div class="row g-3">
                     <div class="col-md-6">

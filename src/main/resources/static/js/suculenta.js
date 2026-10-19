@@ -1,8 +1,6 @@
-// Comportamiento de la pagina de suculentas
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Al abrir el modal se llena con los data-* del boton que lo abrio.
-    // El boton "Nueva suculenta" no trae datos, entonces el formulario queda vacio.
+    // Llena el modal con los datos del boton (en Nueva suculenta queda vacio)
     const modal = document.getElementById('modalSuculenta');
     const formulario = document.getElementById('formSuculenta');
     const campos = ['idSuculenta', 'nombreComun', 'nombreCientifico', 'familia',
@@ -16,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Antes de eliminar se pregunta al usuario; si cancela no se envia el formulario
+    // Pide confirmacion antes de eliminar
     document.querySelectorAll('.form-eliminar').forEach(function (form) {
         form.addEventListener('submit', function (evento) {
             if (!confirm(form.dataset.mensaje)) {

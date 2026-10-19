@@ -1,25 +1,20 @@
-/*
-  SC-403 Práctica 01 - Catálogo de suculentas
-  Al ejecutarlo como root deja lista la base practica, el usuario
-  que usa la aplicación, la tabla suculenta y cinco registros de prueba.
-  Se puede correr varias veces porque primero borra lo que exista.
-*/
+-- Práctica 01 SC-403: ejecutar como root
 drop database if exists practica;
 drop user if exists usuario_practica;
 
--- Base de datos de la práctica
+-- Base de datos
 CREATE database practica
   DEFAULT CHARACTER SET utf8mb4
   DEFAULT COLLATE utf8mb4_unicode_ci;
 
--- Usuario con el que se conecta Spring Boot (solo puede leer y modificar datos)
+-- Usuario de la aplicación
 create user 'usuario_practica'@'%' identified by 'la_Clave';
 grant select, insert, update, delete on practica.* to 'usuario_practica'@'%';
 flush privileges;
 
 use practica;
 
--- Cada fila es una suculenta del catálogo; ruta_imagen guarda el enlace a la foto en la nube
+-- Tabla
 create table suculenta (
   id_suculenta INT NOT NULL AUTO_INCREMENT,
   nombre_comun VARCHAR(50) NOT NULL,
@@ -33,7 +28,7 @@ create table suculenta (
   PRIMARY KEY (id_suculenta))
   ENGINE = InnoDB;
 
--- Cinco suculentas reales para probar el listado desde el inicio
+-- Datos de prueba
 INSERT INTO suculenta (nombre_comun, nombre_cientifico, familia, color_principal, altura_cm, precio_estimado, nivel_riego, ruta_imagen) VALUES
 ('Rosa de alabastro', 'Echeveria elegans',       'Crassulaceae',  'Verde azulado', 10, 3500, 'Bajo',  'https://cdn11.bigcommerce.com/s-x68mczjd0x/images/stencil/1280x1280/products/914/6611/Echeveria_elegans_1g__62365.1677712224.jpg?c=2'),
 ('Árbol de jade',     'Crassula ovata',          'Crassulaceae',  'Verde',         60, 5000, 'Bajo',  'https://tse3.mm.bing.net/th/id/OIP.qfIDVEd13EVNo9XwJYg8wwHaFj?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'),
