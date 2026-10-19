@@ -28,7 +28,6 @@ public class SuculentaController {
     public String listado(Model model) {
         var suculentas = suculentaService.getSuculentas();
         model.addAttribute("suculentas", suculentas);
-        model.addAttribute("totalSuculentas", suculentas.size());
         return "suculenta/listado";
     }
 
