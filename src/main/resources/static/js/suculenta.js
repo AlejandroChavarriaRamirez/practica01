@@ -1,25 +1,40 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Llena el modal con los datos del boton (en Nueva suculenta queda vacio)
-    const modal = document.getElementById('modalSuculenta');
-    const formulario = document.getElementById('formSuculenta');
-    const campos = ['idSuculenta', 'nombreComun', 'nombreCientifico', 'familia',
-        'colorPrincipal', 'alturaCm', 'precioEstimado', 'nivelRiego', 'rutaImagen'];
+    // Llena el modal del formulario segun el boton (Nueva suculenta o Editar)
+    const modalSuculenta = document.getElementById('modalSuculenta');
+    modalSuculenta.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const modo = button.getAttribute('data-modo');
 
-    modal.addEventListener('show.bs.modal', function (evento) {
-        const boton = evento.relatedTarget;
-        document.getElementById('tituloModal').textContent = boton.dataset.titulo;
-        campos.forEach(function (campo) {
-            formulario.elements[campo].value = boton.dataset[campo] || '';
-        });
+        document.getElementById('formSuculenta').reset();
+        document.getElementById('tituloModal').textContent = button.getAttribute('data-titulo');
+        document.getElementById('idSuculenta').value = '';
+
+        if (modo === 'editar') {
+            document.getElementById('idSuculenta').value = button.getAttribute('data-id');
+            document.getElementById('nombreComun').value = button.getAttribute('data-nombrecomun');
+            document.getElementById('nombreCientifico').value = button.getAttribute('data-nombrecientifico');
+            document.getElementById('familia').value = button.getAttribute('data-familia') || '';
+            document.getElementById('colorPrincipal').value = button.getAttribute('data-colorprincipal') || '';
+            document.getElementById('alturaCm').value = button.getAttribute('data-alturacm') || '';
+            document.getElementById('precioEstimado').value = button.getAttribute('data-precioestimado') || '';
+            document.getElementById('nivelRiego').value = button.getAttribute('data-nivelriego') || '';
+            document.getElementById('rutaImagen').value = button.getAttribute('data-rutaimagen') || '';
+        }
     });
 
-    // Pide confirmacion antes de eliminar
-    document.querySelectorAll('.form-eliminar').forEach(function (form) {
-        form.addEventListener('submit', function (evento) {
-            if (!confirm(form.dataset.mensaje)) {
-                evento.preventDefault();
-            }
-        });
+    // Pasa el id y el nombre al modal de eliminar
+    const modalEliminar = document.getElementById('modalEliminar');
+    modalEliminar.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        document.getElementById('idEliminar').value = button.getAttribute('data-id');
+        document.getElementById('nombreEliminar').textContent = button.getAttribute('data-nombre');
     });
+
+    // Oculta los mensajes despues de unos segundos
+    setTimeout(function () {
+        document.querySelectorAll('.toast').forEach(function (toast) {
+            toast.classList.remove('show');
+        });
+    }, 4000);
 });

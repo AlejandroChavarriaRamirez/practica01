@@ -19,18 +19,14 @@ public class SuculentaService {
     }
 
     // Si trae id actualiza, si no inserta
-    @Transactional
     public void guardar(Suculenta suculenta) {
         suculentaRepository.save(suculenta);
     }
 
-    // Devuelve false si no existe
-    @Transactional
-    public boolean eliminar(Integer idSuculenta) {
+    public void eliminar(Integer idSuculenta) {
         if (!suculentaRepository.existsById(idSuculenta)) {
-            return false;
+            throw new IllegalArgumentException("No existe la suculenta " + idSuculenta);
         }
         suculentaRepository.deleteById(idSuculenta);
-        return true;
     }
 }

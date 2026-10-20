@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{plantilla :: cabeza}"></head>
+    <body class="d-flex flex-column min-vh-100">
+        <header th:replace="~{plantilla :: encabezado}"></header>
+
+        <main class="container flex-grow-1 py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-md-6">
+                    <h2 class="display-6 mb-3">[[#{inicio.titulo}]]</h2>
+                    <p class="lead text-muted">[[#{inicio.texto}]]</p>
+                    <a class="btn btn-primary btn-lg" th:href="@{/suculenta/listado}">[[#{inicio.boton}]]</a>
+                </div>
+                <div class="col-md-6">
+                    <img src="https://st3.idealista.com/news/archivos/styles/detail_sm/public/2025-01/images/pexels-quang-nguyen-vinh-222549-2132227.jpg?VersionId=_j2D0LsVBJDffWH.Pwcg.heysPxUK0lv&amp;h=5df42fa2&amp;itok=kps47gyI"
+                         alt="Suculentas" class="img-fluid rounded shadow"/>
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="~{plantilla :: pie}"></footer>
+    </body>
+</html>

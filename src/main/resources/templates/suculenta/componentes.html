@@ -5,7 +5,7 @@
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
         <div class="col" th:each="s : ${suculentas}">
             <div class="card h-100 shadow-sm">
-                <img th:if="${!#strings.isEmpty(s.rutaImagen)}" th:src="${s.rutaImagen}"
+                <img th:if="${s.rutaImagen != null}" th:src="${s.rutaImagen}"
                      th:alt="${s.nombreComun}" class="card-img-top" style="height: 200px; object-fit: cover;"/>
                 <div class="card-body">
                     <h5 class="card-title mb-0">[[${s.nombreComun}]]</h5>
@@ -21,23 +21,25 @@
                 <div class="card-footer bg-transparent d-flex gap-2">
                     <button type="button" class="btn btn-sm btn-outline-primary"
                             data-bs-toggle="modal" data-bs-target="#modalSuculenta"
+                            data-modo="editar"
                             th:data-titulo="#{form.titulo.editar}"
-                            th:data-id-suculenta="${s.idSuculenta}"
-                            th:data-nombre-comun="${s.nombreComun}"
-                            th:data-nombre-cientifico="${s.nombreCientifico}"
+                            th:data-id="${s.idSuculenta}"
+                            th:data-nombrecomun="${s.nombreComun}"
+                            th:data-nombrecientifico="${s.nombreCientifico}"
                             th:data-familia="${s.familia}"
-                            th:data-color-principal="${s.colorPrincipal}"
-                            th:data-altura-cm="${s.alturaCm}"
-                            th:data-precio-estimado="${s.precioEstimado}"
-                            th:data-nivel-riego="${s.nivelRiego}"
-                            th:data-ruta-imagen="${s.rutaImagen}">
+                            th:data-colorprincipal="${s.colorPrincipal}"
+                            th:data-alturacm="${s.alturaCm}"
+                            th:data-precioestimado="${s.precioEstimado}"
+                            th:data-nivelriego="${s.nivelRiego}"
+                            th:data-rutaimagen="${s.rutaImagen}">
                         [[#{boton.editar}]]
                     </button>
-                    <form class="form-eliminar" method="post" th:action="@{/suculenta/eliminar}"
-                          th:data-mensaje="#{confirmar.eliminar(${s.nombreComun})}">
-                        <input type="hidden" name="idSuculenta" th:value="${s.idSuculenta}"/>
-                        <button type="submit" class="btn btn-sm btn-outline-danger">[[#{boton.eliminar}]]</button>
-                    </form>
+                    <button type="button" class="btn btn-sm btn-outline-danger"
+                            data-bs-toggle="modal" data-bs-target="#modalEliminar"
+                            th:data-id="${s.idSuculenta}"
+                            th:data-nombre="${s.nombreComun}">
+                        [[#{boton.eliminar}]]
+                    </button>
                 </div>
             </div>
         </div>
@@ -53,45 +55,66 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="idSuculenta"/>
+                <input type="hidden" id="idSuculenta" name="idSuculenta"/>
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label">[[#{campo.nombreComun}]]</label>
-                        <input type="text" name="nombreComun" class="form-control" maxlength="50" required/>
+                        <label class="form-label" for="nombreComun">[[#{campo.nombreComun}]]</label>
+                        <input type="text" id="nombreComun" name="nombreComun" class="form-control" maxlength="50" required/>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">[[#{campo.nombreCientifico}]]</label>
-                        <input type="text" name="nombreCientifico" class="form-control" maxlength="80" required/>
+                        <label class="form-label" for="nombreCientifico">[[#{campo.nombreCientifico}]]</label>
+                        <input type="text" id="nombreCientifico" name="nombreCientifico" class="form-control" maxlength="80" required/>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">[[#{campo.familia}]]</label>
-                        <input type="text" name="familia" class="form-control" maxlength="50"/>
+                        <label class="form-label" for="familia">[[#{campo.familia}]]</label>
+                        <input type="text" id="familia" name="familia" class="form-control" maxlength="50"/>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">[[#{campo.colorPrincipal}]]</label>
-                        <input type="text" name="colorPrincipal" class="form-control" maxlength="30"/>
+                        <label class="form-label" for="colorPrincipal">[[#{campo.colorPrincipal}]]</label>
+                        <input type="text" id="colorPrincipal" name="colorPrincipal" class="form-control" maxlength="30"/>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">[[#{campo.alturaCm}]]</label>
-                        <input type="number" name="alturaCm" class="form-control" min="0" step="0.01"/>
+                        <label class="form-label" for="alturaCm">[[#{campo.alturaCm}]]</label>
+                        <input type="number" id="alturaCm" name="alturaCm" class="form-control" min="0" step="0.01"/>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">[[#{campo.precioEstimado}]]</label>
-                        <input type="number" name="precioEstimado" class="form-control" min="0" step="0.01"/>
+                        <label class="form-label" for="precioEstimado">[[#{campo.precioEstimado}]]</label>
+                        <input type="number" id="precioEstimado" name="precioEstimado" class="form-control" min="0" step="0.01"/>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">[[#{campo.nivelRiego}]]</label>
-                        <input type="text" name="nivelRiego" class="form-control" maxlength="20"/>
+                        <label class="form-label" for="nivelRiego">[[#{campo.nivelRiego}]]</label>
+                        <input type="text" id="nivelRiego" name="nivelRiego" class="form-control" maxlength="20"/>
                     </div>
                     <div class="col-12">
-                        <label class="form-label">[[#{campo.rutaImagen}]]</label>
-                        <input type="url" name="rutaImagen" class="form-control" maxlength="1024"/>
+                        <label class="form-label" for="rutaImagen">[[#{campo.rutaImagen}]]</label>
+                        <input type="url" id="rutaImagen" name="rutaImagen" class="form-control" maxlength="1024"/>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">[[#{boton.cancelar}]]</button>
                 <button type="submit" class="btn btn-primary">[[#{boton.guardar}]]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Confirmacion para eliminar -->
+<div th:fragment="modalEliminar" class="modal fade" id="modalEliminar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" method="post" th:action="@{/suculenta/eliminar}">
+            <input type="hidden" id="idEliminar" name="idSuculenta"/>
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">[[#{eliminar.titulo}]]</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-1">[[#{eliminar.pregunta}]]<strong id="nombreEliminar"></strong>?</p>
+                <small class="text-muted">[[#{eliminar.nota}]]</small>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">[[#{boton.cancelar}]]</button>
+                <button type="submit" class="btn btn-danger">[[#{boton.eliminar}]]</button>
             </div>
         </form>
     </div>
